@@ -45,3 +45,7 @@ export async function postCustomers(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function putCustomersById(req, res) {
+  console.log("rodando");
+}
