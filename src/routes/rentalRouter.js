@@ -12,5 +12,6 @@ const router = express.Router();
 router.post("/rentals", validateRentals, postRentals);
 router.get("/rentals", getRentals);
 router.post("/rentals/:id/return", rentalsReturnValidate, rentalsReturn);
+router.delete("/rentals/:id", rentalsReturnValidate, rentalsDelete);
 
 export default router;
