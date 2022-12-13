@@ -2,6 +2,7 @@ import express from "express";
 import {
   getRentals,
   postRentals,
+  rentalsDelete,
   rentalsReturn,
 } from "../controllers/rentalController.js";
 import { rentalsReturnValidate } from "../middlewares/rentalsReturnValidateMiddleware.js";
