@@ -16,3 +16,14 @@ export async function getAllCustomers(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function getCustomerById(req, res) {
+  try {
+    const customer = req.customer.rows[0];
+
+    res.send(customer);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
