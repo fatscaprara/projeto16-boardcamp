@@ -48,3 +48,30 @@ export async function postCustomers(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function putCustomer(req, res) {
+  try {
+    const { id } = req.params;
+    const { name, phone, birthday } = req.body;
+
+    await db.query(
+      `
+      UPDATE
+        customers
+      SET
+        name = $1,
+        phone = $2,
+        birthday = $3
+      WHERE
+        id = $4
+      ;
+    `,
+      [name, phone, birthday, id]
+    );
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
