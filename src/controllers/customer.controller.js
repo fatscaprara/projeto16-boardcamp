@@ -27,3 +27,24 @@ export async function getCustomerById(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function postCustomers(req, res) {
+  try {
+    const { name, cpf, phone, birthday } = req.customer;
+
+    await db.query(
+      `
+      INSERT INTO
+        customers (name, cpf, phone, birthday)
+      VALUES
+        ($1, $2, $3, $4)
+    `,
+      [name, cpf, phone, birthday]
+    );
+
+    res.sendStatus(201);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
