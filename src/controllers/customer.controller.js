@@ -61,8 +61,6 @@ export async function putCustomer(req, res) {
     const { id } = req.params;
     const { name, phone, birthday } = req.body;
 
-    const dateFormated = dayjs(birthday).format("YYYY-MM-DD");
-
     await db.query(
       `
       UPDATE
@@ -75,7 +73,7 @@ export async function putCustomer(req, res) {
         id = $4
       ;
     `,
-      [name, phone, dateFormated, id]
+      [name, phone, birthday, id]
     );
 
     res.sendStatus(200);
