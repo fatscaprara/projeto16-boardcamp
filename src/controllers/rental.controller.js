@@ -45,3 +45,84 @@ export async function postRentals(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function getRentals(req, res) {
+  try {
+    const rentals = await db.query(`
+      SELECT
+        r.id,
+        r."customerId",
+        r."gameId",
+        r."rentDate",
+        r."daysRented",
+        r."returnDate",
+        r."originalPrice",
+        r."delayFee",
+        c.name AS "customerName",
+        g.name AS "gameName"
+      FROM
+        customers c
+      JOIN
+        rentals r
+      ON
+        c.id = r."customerId"
+      JOIN
+        games g
+      ON
+        g.id = r."gameId"
+      ;
+    `);
+
+    const {
+      id,
+      customerId,
+      gameId,
+      rentDate,
+      daysRented,
+      returnDate,
+      originalPrice,
+      delayFee,
+      customerName,
+      gameName,
+    } = rentals.rows;
+
+    const rentalsFormatted = rentals.rows.map(
+      ({
+        id,
+        customerId,
+        gameId,
+        rentDate,
+        daysRented,
+        returnDate,
+        originalPrice,
+        delayFee,
+        customerName,
+        gameName,
+      }) => {
+        return {
+          id,
+          customerId,
+          gameId,
+          rentDate,
+          daysRented,
+          returnDate,
+          originalPrice,
+          delayFee,
+          customer: {
+            id: customerId,
+            name: customerName,
+          },
+          game: {
+            id: gameId,
+            name: gameName,
+          },
+        };
+      }
+    );
+
+    res.send(rentalsFormatted);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
