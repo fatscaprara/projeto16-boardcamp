@@ -175,13 +175,15 @@ export async function deleteRental(req, res) {
       WHERE
         id = $1
       AND
-        "returnDate" IS NOT NULL
+        "returnDate" IS NULL
       ;
     `,
       [id]
     );
 
-    if (checkRentalFinished.rowCount) return res.sendStatus(400);
+    if (checkRentalFinished.rowCount) {
+      return res.sendStatus(400);
+    }
 
     await db.query(
       `
