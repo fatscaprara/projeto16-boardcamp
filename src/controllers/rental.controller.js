@@ -181,7 +181,7 @@ export async function deleteRental(req, res) {
       [id]
     );
 
-    if (checkRentalFinished.rowCount) return res.sendStatus(200);
+    if (checkRentalFinished.rowCount) return res.sendStatus(400);
 
     await db.query(
       `
