@@ -161,3 +161,24 @@ export async function finalizeRental(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function deleteRental(req, res) {
+  try {
+    const { id } = req.params;
+    await db.query(
+      `
+      DELETE FROM
+        rentals
+      WHERE
+        id = $1
+      ;
+    `,
+      [id]
+    );
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
