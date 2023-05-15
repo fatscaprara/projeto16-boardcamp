@@ -18,7 +18,7 @@ export async function rentalWasFinished(req, res, next) {
       [id]
     );
 
-    if (!checkRentalFinished.rowCount) return res.sendStatus(400);
+    if (checkRentalFinished.rowCount) return res.sendStatus(400);
 
     next();
   } catch (err) {
