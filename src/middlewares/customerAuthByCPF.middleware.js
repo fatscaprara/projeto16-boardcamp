@@ -4,6 +4,19 @@ export async function customerAuthByCPF(req, res, next) {
   try {
     const { id } = req.params;
     const customer = req.body;
+    const findCustomerById = await db.query(
+      `
+      SELECT
+        *
+      FROM
+        customers
+      WHERE
+        id = $1
+      ;
+    `,
+      [id]
+    );
+
     const findCustomerByCPF = await db.query(
       `
       SELECT
@@ -12,19 +25,21 @@ export async function customerAuthByCPF(req, res, next) {
         customers
       WHERE
         cpf = $1
-      AND
-        id = $2
       ;
     `,
-      [customer.cpf, id]
+      [customer.cpf]
     );
+
+    if (findCustomerById.rows[0].cpf !== findCustomerByCPF.rows[0].cpf) {
+      return res.sendStatus(409);
+    }
 
     // if (!findCustomerById.rowCount) return res.sendStatus(404);
 
     // if (findCustomerById.rows[0].cpf !== customer.cpf)
     //   return res.sendStatus(409);
 
-    if (!findCustomerByCPF.rowCount) return res.sendStatus(409);
+    // if (!findCustomerByCPF.rowCount) return res.sendStatus(409);
 
     next();
   } catch (err) {
