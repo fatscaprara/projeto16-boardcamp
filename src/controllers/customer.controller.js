@@ -68,7 +68,7 @@ export async function putCustomer(req, res) {
       SET
         name = $1,
         phone = $2,
-        birthday = DATE $3
+        birthday = $3
       WHERE
         id = $4
       ;
