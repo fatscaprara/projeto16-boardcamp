@@ -17,8 +17,6 @@ export async function customerAuthByCPF(req, res, next) {
       [id]
     );
 
-    if (!findCustomerById.rowCount) return res.sendStatus(404);
-
     const findCustomerByCPF = await db.query(
       `
       SELECT
@@ -32,11 +30,11 @@ export async function customerAuthByCPF(req, res, next) {
       [customer.cpf]
     );
 
-    if (!findCustomerByCPF.rowCount) return res.sendStatus(404);
+    if (findCustomerByCPF.rows[0].id !== id) return res.sendStatus(409);
 
-    if (findCustomerById.rows[0].cpf !== findCustomerByCPF.rows[0].cpf) {
-      return res.sendStatus(409);
-    }
+    // if (findCustomerById.rows[0].cpf !== customer.cpf) {
+    //   return res.sendStatus(409);
+    // }
 
     // if (!findCustomerById.rowCount) return res.sendStatus(404);
 
