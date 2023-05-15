@@ -13,7 +13,12 @@ const router = express.Router();
 
 router.post("/rentals", rentalIsValid, postRentals);
 router.get("/rentals", getRentals);
-router.post("/rentals/:id/return", rentalExist, finalizeRental);
+router.post(
+  "/rentals/:id/return",
+  rentalExist,
+  rentalWasFinished,
+  finalizeRental
+);
 router.delete("/rentals/:id", rentalExist, rentalWasFinished, deleteRental);
 
 export default router;
