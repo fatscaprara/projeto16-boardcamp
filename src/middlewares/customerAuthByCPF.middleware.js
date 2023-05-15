@@ -25,12 +25,20 @@ export async function customerAuthByCPF(req, res, next) {
         customers
       WHERE
         cpf = $1
+      AND
+        id <> $2
       ;
     `,
-      [customer.cpf]
+      [customer.cpf, id]
     );
 
-    if (findCustomerByCPF.rows[0].id !== id) return res.sendStatus(409);
+    if (findCustomerByCPF.rowCount) return res.sendStatus(409);
+
+    // console.log(findCustomerByCPF.rows[0]);
+
+    // console.log(findCustomerByCPF.rows[0].id, typeof id);
+
+    // if (findCustomerByCPF.rows[0].id !== Number(id)) return res.sendStatus(409);
 
     // if (findCustomerById.rows[0].cpf !== customer.cpf) {
     //   return res.sendStatus(409);
