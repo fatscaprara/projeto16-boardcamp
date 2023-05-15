@@ -19,6 +19,6 @@ router.post(
   rentalWasFinished,
   finalizeRental
 );
-router.delete("/rentals/:id", rentalExist, rentalWasFinished, deleteRental);
+router.delete("/rentals/:id", rentalExist, deleteRental);
 
 export default router;
